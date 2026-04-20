@@ -7,11 +7,14 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['Charter', 'Georgia', 'serif'],
+        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         ink: '#1a1a2e',
         paper: '#faf8f3',
+        muted: '#6b6358',
+        border: '#e8e2d5',
       },
     },
   },

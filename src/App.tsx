@@ -1,9 +1,15 @@
-function App() {
-  return (
-    <main className="min-h-screen bg-paper text-ink flex items-center justify-center">
-      <h1 className="text-4xl font-serif">Easy Read</h1>
-    </main>
-  );
-}
+import Header from "./components/header";
+
+  function App() {
+    return (
+        <>
+            <Header/>
+            <main className="min-h-screen bg-paper text-ink">
+                       
+            </main>
+
+        </>
+    );
+  }
 
 export default App;
