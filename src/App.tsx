@@ -1,4 +1,4 @@
-import {Header, HeroSection} from "./components";
+import {Header, HeroSection, Form} from "./components";
 
   function App() {
     return (
@@ -7,7 +7,7 @@ import {Header, HeroSection} from "./components";
             <main className="min-h-screen bg-paper text-ink px-4 lg:px-28 pt-6 sm:pt-8">
             <HeroSection/>
 
-
+            <Form/>
 
             </main>
 
