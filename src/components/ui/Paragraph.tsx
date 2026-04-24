@@ -1,15 +1,17 @@
 
 
 type InfoBadgeProps = {
-  valor: number;
+  valor?: number;
   label: string;
 };
 
 function Paragraph({ valor, label} : InfoBadgeProps){
+    const hasValor = valor !== undefined;
+
     return (
         <div>
-            <span>{valor + " "}</span>
-            <span>{valor > 1 ? `${label}S` : label}</span>
+            {hasValor && <span>{valor + " "}</span>}
+            <span>{hasValor && valor > 1 ? `${label}S` : label}</span>
         </div>
 
     )
