@@ -15,8 +15,12 @@ export default {
         paper: '#faf8f3',
         muted: '#6b6358',
         border: '#e8e2d5',
+        original: '#f3efe8',
+        text_border: '#c9bfa8',
       },
     },
   },
   plugins: [],
+  
 }
+

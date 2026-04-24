@@ -3,7 +3,7 @@ function HeroSection(){
         <div className="md:flex">
 
             <div className="md:w-3/5">
-                <p className=" py-3 font-sans text-[12px] md:text-xs font-medium text-muted tracking-widest">
+                <p className=" pt-10 font-sans text-[12px] md:text-xs font-medium text-muted tracking-widest">
                     FERRAMENTA PUBLICA
                 </p>
                 <h2 className="font-serif text-[40px] font-normal py-6">

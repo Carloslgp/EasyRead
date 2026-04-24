@@ -7,3 +7,9 @@ html,
 body {
     overflow-x: hidden;
 }
+
+@layer components {
+    .reading-text {
+        @apply font-serif text-[15px] leading-8 text-muted text-left;
+    }
+}
