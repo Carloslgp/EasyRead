@@ -171,7 +171,7 @@ function Form(){
 
             <div className="flex flex-col items-center py-10 text-center md:pt-12">
 
-                <button type="button" className="mb-5 rounded-[3px] bg-button_blue px-6 py-3 font-serif text-paper">
+                <button type="button" className="mb-5 rounded-[3px] bg-button_blue px-6 py-3 font-serif text-paper transition-colors duration-200 hover:bg-text_blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-button_blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
                     Simplificar texto
                 </button>
 
