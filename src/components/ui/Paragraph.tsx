@@ -7,11 +7,15 @@ type InfoBadgeProps = {
 
 function Paragraph({ valor, label} : InfoBadgeProps){
     const hasValor = valor !== undefined;
+    const labelClassName = "font-sans text-[11px] md:text-[8px] lg:text-[10px] font-medium uppercase leading-relaxed tracking-widest text-muted";
+    const displayLabel = hasValor && valor > 1
+        ? label.replace(/^(\S+)/, (firstWord) => firstWord.endsWith("S") ? firstWord : `${firstWord}S`)
+        : label;
 
     return (
         <div>
-            {hasValor && <span className="pt-3 pb-1 font-sans text-[12px] md:text-xs font-medium text-muted tracking-widest">{valor + " "}</span>}
-            <span className="font-sans md:text-[12px] text-[11px] md:text-xs font-medium text-muted tracking-widest">{hasValor && valor > 1 ? `${label}S` : label}</span>
+            {hasValor && <span className={labelClassName}>{valor + " "}</span>}
+            <span className={labelClassName}>{displayLabel}</span>
         </div>
 
     )

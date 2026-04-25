@@ -22,19 +22,19 @@ function ReadingScale({ gradeIndex, setGradeIndex }: ReadingScaleProps) {
     const percentage = (gradeIndex / (grades.length - 1)) * 100;
 
     return (
-        <div className="rounded-lg p-6 bg-paper">
-            <div className="flex justify-between items-center mb-4">
-                <span className="text-[11px] tracking-[0.2em] text-muted font-sans">
+        <div className="rounded-lg bg-paper p-6 md:rounded-none md:border-t md:border-border md:p-0 md:pt-4">
+            <div className="mb-4 flex items-center justify-between md:mb-2">
+                <span className="font-sans text-[11px] tracking-[0.2em] text-muted md:text-[8px] lg:text-[10px]">
                     ESCALA DE LEITURA
                 </span>
-                <span className="text-[11px] tracking-[0.15em] text-ink font-sans">
+                <span className="font-sans text-[11px] tracking-[0.15em] text-ink md:text-[8px] lg:text-[10px]">
                     {grades[gradeIndex].toUpperCase()}
                     <span className="mx-2 text-muted">·</span>
                     {getCategory(gradeIndex)}
                 </span>
             </div>
 
-            <div className="relative mb-3">
+            <div className="relative mb-3 md:mb-2">
                 <input
                     type="range"
                     min={0}
@@ -49,7 +49,7 @@ function ReadingScale({ gradeIndex, setGradeIndex }: ReadingScaleProps) {
                 />
             </div>
 
-            <div className="flex justify-between text-[10px] tracking-[0.15em] text-muted font-sans">
+            <div className="flex justify-between font-sans text-[10px] tracking-[0.15em] text-muted md:text-[7px] lg:text-[9px]">
                 {labels.map((label) => (
                     <span key={label}>{label}</span>
                 ))}
@@ -95,6 +95,27 @@ function ReadingScale({ gradeIndex, setGradeIndex }: ReadingScaleProps) {
 
                 .reading-scale-slider::-moz-range-thumb:hover {
                     transform: scale(1.1);
+                }
+
+                @media (min-width: 768px) {
+                    .reading-scale-slider {
+                        height: 3px;
+                        border-radius: 0;
+                    }
+
+                    .reading-scale-slider::-webkit-slider-thumb {
+                        width: 9px;
+                        height: 9px;
+                        border: 0;
+                        box-shadow: none;
+                    }
+
+                    .reading-scale-slider::-moz-range-thumb {
+                        width: 9px;
+                        height: 9px;
+                        border: 0;
+                        box-shadow: none;
+                    }
                 }
             `}</style>
         </div>
