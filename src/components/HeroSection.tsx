@@ -3,10 +3,10 @@ function HeroSection(){
         <div className="md:flex">
 
             <div className="md:w-3/5">
-                <p className=" pt-10 font-sans text-[12px] md:text-xs font-medium text-muted tracking-widest">
+                <p className=" pt-7 font-sans text-[12px] md:text-xs font-medium text-muted tracking-widest">
                     FERRAMENTA PUBLICA
                 </p>
-                <h2 className="font-serif text-[40px] font-normal py-6">
+                <h2 className="font-serif text-[36px] font-normal py-6">
                     Textos difíceis, <br/> <em>entendidos.</em>
                 </h2>
                 <p className="pr-12 text-left py-3 pb-7 md:pb-0 font-serif text-[20px] md:text-xl font-normal text-muted">

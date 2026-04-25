@@ -2,6 +2,23 @@ import { useState } from "react";
 import Paragraph from "./ui/Paragraph"
 import ReadingScale from "./ui/ReadingScale"
 import Button from "./ui/Button"
+import ResponseBox from "./ui/ResponseBox";
+
+const grades = [
+    "1.º ano",
+    "2.º ano",
+    "3.º ano",
+    "4.º ano",
+    "5.º ano",
+    "6.º ano",
+    "7.º ano",
+    "8.º ano",
+    "9.º ano",
+    "Médio",
+    "Superior",
+    "Mestrado",
+    "Doutorado"
+];
 
 
 
@@ -31,7 +48,7 @@ function Form(){
                             min-h-[300px]
                             bg-original
                             border border-text_border
-                            rounded-lg
+                            rounded-[3px]
                             py-4
                             px-7
                             font-serif
@@ -67,27 +84,31 @@ function Form(){
 
                 </div>
 
-                <div>
-                    <div>
+                <div className="">
+                    <div className="flex justify-between items-center mb-2">
                         <Paragraph label="VERSÃO SIMPLIFICADA"/>
-                        <p>NÍVEL DE LEITURA - 6.º ano</p>
+                        <p className="py-1 px-2 uppercase text-[11px] bg-back_blue text-text_blue">NÍVEL DE LEITURA - {grades[gradeIndex]}</p>
                     </div>
 
-                    <div>
-                        <div>
+                    <div className="border border-border rounded-[3px] justify-between flex flex-col items-center py-3 bg-box_white box-border p-4 mb-4 mt-2">
+
+                        <div className="w-full pb-4 flex items-center text-center">
                             <Paragraph label="REESCRITA AUTOMÁTICA"/>
 
                             <Paragraph valor = {40} label="SEGUNDOS DE LEITURA"/>
                         </div>
                         
-                        <input type="text" name="" id="" />
+                        <div className="my-5">
+                            <ResponseBox>
+                                O pagamento tem que ser feito até o <strong>quinto dia útil</strong> do mês seguinte.
+                            </ResponseBox>
+                        </div>
 
-                        <div>
+                        <div className="w-full flex items-center justify-between pt-4">
 
                             <Paragraph valor = {78} label="PALAVRA"/>
 
                             <Paragraph valor = {5} label="PARÁGRAFO"/>
-
 
                         </div>
 
@@ -105,9 +126,11 @@ function Form(){
 
 
 
-            <div>
+            <div className="flex flex-col items-center text-center py-10">
 
-                <button>Simplificar texto</button>
+                <button className=" mb-5 font-serif text-paper rounded-[3px] px-5 py-3 bg-button_blue">
+                    Simplificar texto
+                </button>
 
                 <Paragraph label="GRÁTIS · SEM CADASTRO · SEUES TEXTOS NÃO SÃO ARMAZENADOS" />
 
