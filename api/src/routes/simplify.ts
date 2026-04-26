@@ -1,9 +1,10 @@
 import {Router, Request, Response} from 'express'
 import { SimplifyRequest, SimplifyResponse } from '../types/index.js'
+import { simplifyDocument } from '../services/anthropic.js'
 
 const router = Router()
 
-router.post("/simplify", (req:Request, res: Response) => {
+router.post("/simplify", async (req:Request, res: Response) => {
     const {text, grade} = req.body as SimplifyRequest
 
     if(!text || typeof text !== "string") {
@@ -14,17 +15,18 @@ router.post("/simplify", (req:Request, res: Response) => {
         return res.status(400).json({error: "Campo 'grade' é obrigatório e deve ser uma string!"})
     }
 
-    const mockResponse: SimplifyResponse = {
-        result: "Este é um texto **simplificado** de exemplo. Ele tem frases curtas. Palavras comuns. Fácil de entender.",
-        documentType: "Documento de exemplo",
-        register: "Português formal",
-        editorNote: `Texto simplificado para o nível ${grade}. Esta é uma resposta mock — a integração com IA será feita na próxima etapa.`
+    try{
+        const result = await simplifyDocument(text, grade)
+        res.json(result)
+    }catch(error) {
+
+        console.error("Erro ao simplificar documento:", error)
+        res.status(500).json({
+            error: "Erro ao processar o documento. Por favor, tente novamente mais tarde."
+        })
+
     }
 
-    setTimeout(() => {
-        res.json(mockResponse);
-    }, 1500);
-        
 })
 
 export default router;

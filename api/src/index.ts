@@ -1,9 +1,9 @@
+import "./config.js";
 import Express, {Request, Response} from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import simplifyRouter from "./routes/simplify.js";
 
-dotenv.config();
+
 
 const app = Express();
 const PORT = process.env.PORT || 3000;
