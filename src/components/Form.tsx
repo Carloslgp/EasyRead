@@ -3,6 +3,7 @@ import Paragraph from "./ui/Paragraph"
 import ReadingScale from "./ui/ReadingScale"
 import Button from "./ui/Button"
 import ResponseBox from "./ui/ResponseBox";
+import { useSimplify } from "../features/simplify/useSimplify";
 
 const grades = [
     "1.º ano",
@@ -20,10 +21,11 @@ const grades = [
     "Doutorado"
 ];
 
-const originalText = `Fica ajustado entre as partes que o LOCATÁRIO, em contraprestação à cessão do imóvel objeto do presente instrumento, obriga-se ao pagamento mensal do valor locatício estipulado na cláusula segunda, até o quinto dia útil subsequente ao mês vencido, sob pena de incidência de multa moratória de 10% (dez por cento) sobre o montante devido, acrescida de juros de mora de 1% (um por cento) ao mês, pro rata die, independentemente de qualquer interpelação judicial ou extrajudicial, facultando-se ao LOCADOR a rescisão unilateral do contrato e a imediata reintegração de posse.`;
 
 function Form(){
     const [gradeIndex, setGradeIndex] = useState(5);
+    const [text, setText] = useState("");
+    const { data, loading, error, handleSimplify } = useSimplify();
     return(
 
         <section className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8">
@@ -39,7 +41,8 @@ function Form(){
 
                     <textarea
                         aria-label="Texto original"
-                        defaultValue={originalText}
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
                         className="
                             w-full
                             max-w-2xl
@@ -122,22 +125,7 @@ function Form(){
                         <div className="my-5 w-full flex-1 font-serif text-[15px] leading-8 text-ink md:my-6 md:text-[13px] md:leading-7 lg:text-[16px] lg:leading-8">
                             <ResponseBox>
                                 <div className="space-y-4">
-                                    <p>Você precisa pagar o aluguel todo mês.</p>
-
-                                    <p>
-                                        O pagamento tem que ser feito até o <strong>quinto dia útil</strong> do mês seguinte.
-                                    </p>
-
-                                    <p>Se você pagar depois do prazo, vai pagar mais dinheiro:</p>
-
-                                    <ul className="space-y-1 pl-5">
-                                        <li>- uma multa de <strong>10%</strong> sobre o valor do aluguel;</li>
-                                        <li>- juros de <strong>1% por mês</strong>, contados dia a dia.</li>
-                                    </ul>
-
-                                    <p>
-                                        Se você não pagar, o dono do imóvel pode encerrar <strong>o contrato</strong> e pedir o imóvel de volta. Ele não precisa avisar na justiça antes.
-                                    </p>
+                                    
                                 </div>
                             </ResponseBox>
                         </div>
@@ -171,7 +159,7 @@ function Form(){
 
             <div className="flex flex-col items-center py-10 text-center md:pt-12">
 
-                <button type="button" className="mb-5 rounded-[3px] bg-button_blue px-6 py-3 font-serif text-paper transition-colors duration-200 hover:bg-text_blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-button_blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
+                <button onClick={() => handleSimplify(text, grades[gradeIndex])} type="button" className="mb-5 rounded-[3px] bg-button_blue px-6 py-3 font-serif text-paper transition-colors duration-200 hover:bg-text_blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-button_blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
                     Simplificar texto
                 </button>
 
