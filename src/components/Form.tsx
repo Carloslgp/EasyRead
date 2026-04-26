@@ -16,9 +16,7 @@ const grades = [
     "8.º ano",
     "9.º ano",
     "Médio",
-    "Superior",
-    "Mestrado",
-    "Doutorado"
+    "Superior"
 ];
 
 

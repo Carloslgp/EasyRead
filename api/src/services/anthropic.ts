@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { SimplifyRequest, SimplifyResponse } from "../types/index.js";
-
+import type {SimplifyResponse } from "../types/index.js";
+import { SIMPLIFY_SYSTEM_PROMPT } from "../lib/prompt.js";
 
 const client = new Anthropic()
 
@@ -13,6 +13,7 @@ export async function simplifyDocument(
     const response = await client.messages.create({
             model: "claude-haiku-4-5",
             max_tokens: 2048,
+            system: SIMPLIFY_SYSTEM_PROMPT,
             tools: [{
                 name: "return_simplified_document",
                 description: "Retorna o documento simplificado de forma estruturada.",

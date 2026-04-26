@@ -7,7 +7,7 @@ function ReadingScale({ gradeIndex, setGradeIndex }: ReadingScaleProps) {
     const grades = [
         "1.º ano", "2.º ano", "3.º ano", "4.º ano", "5.º ano",
         "6.º ano", "7.º ano", "8.º ano", "9.º ano",
-        "Médio", "Superior", "Mestrado", "Doutorado"
+        "Médio", "Superior"
     ];
 
     const labels = ["MUITO FÁCIL", "MÉDIO", "COMPLEXO", "JURÍDICO"];
