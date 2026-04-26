@@ -1,8 +1,7 @@
 import Express, {Request, Response} from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { dot } from "node:test/reporters";
-import { time, timeStamp } from "node:console";
+import simplifyRouter from "./routes/simplify.js";
 
 dotenv.config();
 
@@ -27,4 +26,7 @@ app.get("/health", (req: Request, res: Response) => {
 app.listen(PORT, () => {
     console.log(`Easy Read API rodando em http://localhost:${PORT}`);
 })
+
+
+app.use("/api", simplifyRouter);
 
