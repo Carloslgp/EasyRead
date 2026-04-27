@@ -24,6 +24,10 @@ function Form(){
     const [gradeIndex, setGradeIndex] = useState(5);
     const [text, setText] = useState("");
     const { data, loading, error, handleSimplify } = useSimplify();
+    const charCount = text.length;
+    const paragraphCount = text.trim() ? text.split(/\n\s*\n/).length : 0;
+    const wordCount = data?.result ? data.result.replace(/\*\*/g, "").trim().split(/\s+/).filter(Boolean).length : 0;
+    const sentenceCount = data?.result ? data.result.split(/[.!?]+/).filter(s => s.trim()).length : 0;
     return(
 
         <section className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8">
@@ -34,7 +38,7 @@ function Form(){
                     <div className="mb-6 flex min-h-6 items-center justify-between gap-4 md:mb-5">
                         <Paragraph label="TEXTO ORIGINAL - I"/>
 
-                        <Paragraph label="CLÁUSULA DE CONTRATO DE ALUGUEL" />
+                        <Paragraph label={data?.documentType?.toUpperCase() ?? "AGUARDANDO TEXTO"} />
                     </div>
 
                     <textarea
@@ -77,10 +81,10 @@ function Form(){
 
                     <div className="my-2 border-b border-border md:mb-0 md:pb-5">
                         <div className="flex items-start justify-between gap-3">
-                            <Paragraph valor={582} label="CARACTERE"/>
-                            <Paragraph valor={1} label="PARÁGRAFO"/>
+                            <Paragraph valor={charCount} label="CARACTERE"/>
+                            <Paragraph valor={paragraphCount} label="PARÁGRAFO"/>
                             <div className="hidden md:block">
-                                <Paragraph label="PORTUGUÊS FORMAL" />
+                                <Paragraph label={data?.register?.toUpperCase() ?? "PORTUGUÊS FORMAL"} />
                             </div>
                             <div className="hidden md:block">
                                 <Button label="COLAR"/>
@@ -97,8 +101,9 @@ function Form(){
 
                     <div className="mb-8 pt-3 md:mb-0 md:pt-5">
                         <Paragraph label="OBSERVAÇÃO DO EDITOR"/>
-                        <p className="reading-text mt-2 italic md:text-[12px] md:leading-7">{'O trecho acima reúne três marcas típicas da redação jurídica: períodos longos, vocabulário técnico e expressões latinas. Ao lado, a reescrita preserva o sentido, mas distribui a informação em frases curtas.'}</p>
-
+                        <p className="reading-text mt-2 italic md:text-[12px] md:leading-7">
+                            {data?.editorNote ?? "A observação do editor aparecerá aqui após a simplificação."}
+                        </p>
                     </div>
 
 
@@ -121,17 +126,17 @@ function Form(){
                         </div>
                         
                         <div className="my-5 w-full flex-1 font-serif text-[15px] leading-8 text-ink md:my-6 md:text-[13px] md:leading-7 lg:text-[16px] lg:leading-8">
-                            <ResponseBox>
-                                <div className="space-y-4">
-                                    
-                                </div>
-                            </ResponseBox>
+                            <ResponseBox 
+                                content={data?.result}
+                                loading={loading}
+                                error={error}
+                            />
                         </div>
 
                         <div className="flex w-full items-center justify-between gap-4 border-t border-border pt-4">
                             <div className="flex items-center gap-4">
-                                <Paragraph valor = {78} label="PALAVRA"/>
-                                <Paragraph valor = {5} label="FRASE"/>
+                                <Paragraph valor={wordCount} label="PALAVRA"/>
+                                <Paragraph valor={sentenceCount} label="FRASE"/>
                             </div>
 
                             <div className="flex items-center gap-3 font-sans text-[11px] text-muted md:text-[9px] lg:text-[11px]">
