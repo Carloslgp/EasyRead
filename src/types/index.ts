@@ -11,3 +11,5 @@ export type ExtractResponse = {
     pages?: number;
     truncated?: boolean;
 };
+
+

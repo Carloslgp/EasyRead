@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Paragraph from "./ui/Paragraph"
 import ReadingScale from "./ui/ReadingScale"
 import Button from "./ui/Button"
 import ResponseBox from "./ui/ResponseBox";
 import { useSimplify } from "../features/simplify/useSimplify";
+import { useExtractPdf } from "../features/simplify/useExtractPdf";
 
 const grades = [
     "1.º ano",
@@ -53,13 +54,50 @@ function Form(){
     const [gradeIndex, setGradeIndex] = useState(5);
     const [text, setText] = useState("");
     const { data, loading, error, handleSimplify } = useSimplify();
+    const { 
+        data: extractData, 
+        loading: extractLoading, 
+        error: extractError, 
+        handleExtract 
+    } = useExtractPdf();
+
+    useEffect(() => {
+        if (extractData?.text) {
+            setText(extractData.text);
+        }
+    }, [extractData]);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const charCount = text.length;
     const paragraphCount = text.trim() ? text.split(/\n\s*\n/).length : 0;
     const wordCount = data?.result ? data.result.replace(/\*\*/g, "").trim().split(/\s+/).filter(Boolean).length : 0;
     const sentenceCount = data?.result ? countSentences(data.result) : 0;
+
+
+    function openFilePicker() {
+        fileInputRef.current?.click();
+    }
+
+    function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (file) {
+            handleExtract(file);
+        }
+        e.target.value = "";
+    }
+
+
     return(
 
         <section className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8">
+            <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/pdf"
+                onChange={handleFileChange}
+                className="hidden"
+                aria-hidden="true"
+            />
 
             <div className="mx-auto md:grid md:max-w-[760px] md:grid-cols-2 md:gap-x-8 lg:max-w-[1120px] lg:gap-x-10 xl:max-w-[1280px] xl:gap-x-12">
 
@@ -119,7 +157,11 @@ function Form(){
                                 <Button label="COLAR"/>
                             </div>
                             <div className="hidden md:block">
-                                <Button label="ENVIAR ARQUIVO"/>
+                                <Button 
+                                    label={extractLoading ? "EXTRAINDO..." : "ENVIAR ARQUIVO"}
+                                    onClick={openFilePicker}
+                                    disabled={extractLoading}
+                                />
                             </div>
                         </div>
                         <div className="my-2 mb-5 flex items-center justify-around md:hidden">
@@ -128,12 +170,24 @@ function Form(){
                         </div>
                     </div>
 
-                    <div className="mb-8 pt-3 md:mb-0 md:pt-5">
-                        <Paragraph label="OBSERVAÇÃO DO EDITOR"/>
-                        <p className="reading-text mt-2 italic md:text-[12px] md:leading-7">
-                            {data?.editorNote ?? "A observação do editor aparecerá aqui após a simplificação."}
+                <div className="mb-8 pt-3 md:mb-0 md:pt-5">
+                    <Paragraph label="OBSERVAÇÃO DO EDITOR"/>
+                    <p className="reading-text mt-2 italic md:text-[12px] md:leading-7">
+                        {data?.editorNote ?? "A observação do editor aparecerá aqui após a simplificação."}
+                    </p>
+
+                    {extractError && (
+                        <p className="mt-2 font-sans text-[11px] text-red-700 md:text-[10px] lg:text-[11px]">
+                            ⚠ {extractError}
                         </p>
-                    </div>
+                    )}
+
+                    {extractData?.truncated && (
+                        <p className="mt-2 font-sans text-[11px] text-yellow-700 md:text-[10px] lg:text-[11px]">
+                            ⚠ Texto cortado em 50.000 caracteres. Considere simplificar partes menores.
+                        </p>
+                    )}
+                </div>
 
 
                 </div>
