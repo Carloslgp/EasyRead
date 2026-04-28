@@ -18,6 +18,35 @@ const grades = [
     "Médio",
     "Superior"
 ];
+function countSentences(text: string): number {
+  if (!text) return 0;
+  
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  let count = 0;
+  
+  for (const line of lines) {
+
+    const content = line.replace(/^[\*\-•]\s*/, '').trim();
+    if (!content) continue;
+    
+
+    const sentences = content.match(/[^.!?]+[.!?]+/g);
+    
+    if (sentences && sentences.length > 0) {
+      count += sentences.length;
+
+      const lastChar = content.trim().slice(-1);
+      if (!'.!?'.includes(lastChar)) {
+        count += 1;
+      }
+    } else {
+
+      count += 1;
+    }
+  }
+  
+  return count;
+}
 
 
 function Form(){
@@ -27,7 +56,7 @@ function Form(){
     const charCount = text.length;
     const paragraphCount = text.trim() ? text.split(/\n\s*\n/).length : 0;
     const wordCount = data?.result ? data.result.replace(/\*\*/g, "").trim().split(/\s+/).filter(Boolean).length : 0;
-    const sentenceCount = data?.result ? data.result.split(/[.!?]+/).filter(s => s.trim()).length : 0;
+    const sentenceCount = data?.result ? countSentences(data.result) : 0;
     return(
 
         <section className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8">
