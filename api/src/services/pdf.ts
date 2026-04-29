@@ -48,10 +48,6 @@ export async function extractTextFromPdf(buffer: Buffer): Promise<PdfExtractionR
             method: "native"
         }    
 
-
-
-
-
     }finally{
         
         await parser.destroy()

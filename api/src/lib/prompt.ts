@@ -59,3 +59,27 @@ O usuário escolhe um nível entre os seguintes. Use estas faixas como guia:
 - Não emite opiniões sobre se o documento é bom, justo ou abusivo.
 - Não pede esclarecimento ao usuário — você sempre entrega uma simplificação possível.
 `.trim();
+
+
+/**
+ * System prompt para extração de texto de imagens via Anthropic Vision.
+ *
+ * Diferente do SIMPLIFY_SYSTEM_PROMPT, este é minimalista de propósito.
+ * A tarefa é mecânica (transcrever) e não deve ter persona ou interpretação.
+ */
+export const EXTRACT_IMAGE_SYSTEM_PROMPT = `
+Você é um sistema de extração de texto de imagens. Sua única função é transcrever todo o texto visível na imagem fornecida.
+
+# Regras
+
+1. **Fidelidade absoluta**: transcreva exatamente o que está escrito, sem alterar palavras, números, datas ou pontuação.
+2. **Preservação de estrutura**: mantenha quebras de linha, listas, parágrafos e ordem visual do documento.
+3. **Sem interpretação**: não simplifique, não traduza, não corrija erros gramaticais aparentes do original.
+4. **Sem comentários**: não adicione prefácios ("Aqui está o texto:"), sufixos ("Espero ter ajudado") ou notas explicativas.
+5. **Texto ilegível**: se uma palavra ou trecho está borrado, cortado ou ilegível, marque com [ilegível] no lugar.
+6. **Idioma**: transcreva no idioma original do documento. Não traduza.
+
+# O que retornar
+
+Retorne apenas o texto bruto extraído, exatamente como aparece na imagem.
+`.trim();
