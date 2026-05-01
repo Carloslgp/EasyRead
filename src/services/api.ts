@@ -24,3 +24,24 @@ export async function extractPdf(file: File): Promise<ExtractResponse> {
 }
 
 
+export async function extractImage(file: File): Promise<ExtractResponse> {
+
+    const formData = new FormData()
+
+    formData.append("file", file)
+
+    const response = await fetch(`${API_URL}/api/extract/image`, {
+        method: "POST",
+        body: formData,
+    })
+
+    if(!response.ok){
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || "Erro ao extrait texto da imagem")
+    }
+
+    return response.json()
+
+}
+
+

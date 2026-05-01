@@ -5,6 +5,7 @@ import Button from "./ui/Button"
 import ResponseBox from "./ui/ResponseBox";
 import { useSimplify } from "../features/simplify/useSimplify";
 import { useExtractPdf } from "../features/simplify/useExtractPdf";
+import { useExtractImage } from "../features/simplify/extractImage";
 
 const grades = [
     "1.º ano",
@@ -68,6 +69,22 @@ function Form(){
     }, [extractData]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const { 
+        loading: imageLoading, 
+        error: imageError, 
+        handleExtract: handleExtractImage,
+        data: imageData,
+    } = useExtractImage();
+
+    const imageInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+    if (imageData?.text) {
+        setText(imageData.text);
+    }
+    }, [imageData]);
+
     const charCount = text.length;
     const paragraphCount = text.trim() ? text.split(/\n\s*\n/).length : 0;
     const wordCount = data?.result ? data.result.replace(/\*\*/g, "").trim().split(/\s+/).filter(Boolean).length : 0;
@@ -86,6 +103,18 @@ function Form(){
         e.target.value = "";
     }
 
+    function openImagePicker() {
+        imageInputRef.current?.click();
+    }
+
+    function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (file) {
+            handleExtractImage(file);
+        }
+        e.target.value = "";
+    }
+
 
     return(
 
@@ -95,6 +124,15 @@ function Form(){
                 type="file"
                 accept="application/pdf"
                 onChange={handleFileChange}
+                className="hidden"
+                aria-hidden="true"
+            />
+            <input
+                ref={imageInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                capture="environment"
+                onChange={handleImageChange}
                 className="hidden"
                 aria-hidden="true"
             />
@@ -146,30 +184,45 @@ function Form(){
                         "
                     />
 
-                    <div className="my-2 border-b border-border md:mb-0 md:pb-5">
-                        <div className="flex items-start justify-between gap-3">
-                            <Paragraph valor={charCount} label="CARACTERE"/>
-                            <Paragraph valor={paragraphCount} label="PARÁGRAFO"/>
-                            <div className="hidden md:block">
-                                <Paragraph label={data?.register?.toUpperCase() ?? "PORTUGUÊS FORMAL"} />
-                            </div>
-                            <div className="hidden md:block">
-                                <Button label="COLAR"/>
-                            </div>
-                            <div className="hidden md:block">
-                                <Button 
-                                    label={extractLoading ? "EXTRAINDO..." : "ENVIAR ARQUIVO"}
-                                    onClick={openFilePicker}
-                                    disabled={extractLoading}
-                                />
-                            </div>
+                <div className="my-2 border-b border-border md:mb-0 md:pb-5">
+                    <div className="flex items-start justify-between gap-3">
+                        <Paragraph valor={charCount} label="CARACTERE"/>
+                        <Paragraph valor={paragraphCount} label="PARÁGRAFO"/>
+                        <div className="hidden md:block">
+                            <Paragraph label={data?.register?.toUpperCase() ?? "PORTUGUÊS FORMAL"} />
                         </div>
-                        <div className="my-2 mb-5 flex items-center justify-around md:hidden">
+                        <div className="hidden md:block">
                             <Button label="COLAR"/>
-                            <Button label="ENVIAR ARQUIVO"/>
+                        </div>
+                        <div className="hidden md:block">
+                            <Button 
+                                label={imageLoading ? "EXTRAINDO..." : "TIRAR FOTO"}
+                                onClick={openImagePicker}
+                                disabled={imageLoading}
+                            />
+                        </div>
+                        <div className="hidden md:block">
+                            <Button 
+                                label={extractLoading ? "EXTRAINDO..." : "ENVIAR ARQUIVO"}
+                                onClick={openFilePicker}
+                                disabled={extractLoading}
+                            />
                         </div>
                     </div>
-
+                    <div className="my-2 mb-5 flex items-center justify-around md:hidden">
+                        <Button label="COLAR"/>
+                        <Button 
+                            label={imageLoading ? "EXTRAINDO..." : "TIRAR FOTO"}
+                            onClick={openImagePicker}
+                            disabled={imageLoading}
+                        />
+                        <Button 
+                            label={extractLoading ? "EXTRAINDO..." : "ENVIAR ARQUIVO"}
+                            onClick={openFilePicker}
+                            disabled={extractLoading}
+                        />
+                    </div>
+                </div>
                 <div className="mb-8 pt-3 md:mb-0 md:pt-5">
                     <Paragraph label="OBSERVAÇÃO DO EDITOR"/>
                     <p className="reading-text mt-2 italic md:text-[12px] md:leading-7">
