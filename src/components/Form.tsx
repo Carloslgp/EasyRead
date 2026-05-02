@@ -54,6 +54,7 @@ function countSentences(text: string): number {
 function Form(){
     const [gradeIndex, setGradeIndex] = useState(5);
     const [text, setText] = useState("");
+    const [copied, setCopied] = useState(false);
     const { data, loading, error, handleSimplify } = useSimplify();
     const { 
         data: extractData, 
@@ -113,6 +114,15 @@ function Form(){
             handleExtractImage(file);
         }
         e.target.value = "";
+    }
+
+    async function handleCopy() {
+        const result = data?.result;
+        if (!result) return;
+        const plain = result.replace(/\*\*/g, "");
+        await navigator.clipboard.writeText(plain);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
     }
 
 
@@ -276,7 +286,14 @@ function Form(){
                             </div>
 
                             <div className="flex items-center gap-3 font-sans text-[11px] text-muted md:text-[9px] lg:text-[11px]">
-                                <button type="button" className="hover:text-ink">Copiar</button>
+                                <button
+                                    type="button"
+                                    onClick={handleCopy}
+                                    disabled={!data?.result}
+                                    className="hover:text-ink disabled:opacity-40 disabled:cursor-not-allowed"
+                                >
+                                    {copied ? "Copiado!" : "Copiar"}
+                                </button>
                                 <button type="button" className="hover:text-ink">Baixar PDF</button>
                                 <button type="button" className="hover:text-ink">Ouvir</button>
                             </div>
