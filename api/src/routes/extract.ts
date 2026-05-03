@@ -3,6 +3,7 @@ import multer from "multer";
 import { extractTextFromPdf } from "../services/pdf.js";
 import type { ExtractResponse } from "../types/index.js";
 import { extractTextFromImage } from "../services/image.js";
+import { extractTextFromUrl } from "../services/url.js";
 
 const router = Router();
 
@@ -105,6 +106,43 @@ router.post("/extract/image", uploadImage.single("file"), async (req: Request, r
     }
     
 );
+
+
+router.post("/extract/url", async(req: Request, res: Response) => {
+
+    const { url } = req.body as { url?: string }
+
+    if (!url || typeof url !== "string") {
+        return res.status(400).json({ error: "Campo 'url' é obrigatório." });
+    }
+
+    try{
+        const extraction = await extractTextFromUrl(url)
+
+        const response: ExtractResponse = {
+            text: extraction.text,
+            source: "url",
+            truncated: extraction.truncated,
+        }
+
+        res.json(response)
+    }catch(error){
+
+        console.error("Erro ao extrair URL:", error);
+        const message = error instanceof Error ? error.message : "Erro desconhecido.";
+        res.status(500).json({
+            error: message,
+            detail: message,
+        });
+
+    }
+
+
+
+})
+
+
+
 
 export default router;
 
