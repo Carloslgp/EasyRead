@@ -44,4 +44,25 @@ export async function extractImage(file: File): Promise<ExtractResponse> {
 
 }
 
+export async function extractUrl(url:string): Promise<ExtractResponse> {
+    
+    const response = await fetch(`${API_URL}/api/extract/url`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({url})
+    })
+
+    if(!response.ok){
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || "Erro ao extrair url")
+    }
+
+    return response.json()
+
+
+
+}
+
+
+
 

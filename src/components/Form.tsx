@@ -6,6 +6,7 @@ import ResponseBox from "./ui/ResponseBox";
 import { useSimplify } from "../features/simplify/useSimplify";
 import { useExtractPdf } from "../features/simplify/useExtractPdf";
 import { useExtractImage } from "../features/simplify/extractImage";
+import { useExtractUrl } from "../features/simplify/useExtractUrl";
 
 const grades = [
     "1.º ano",
@@ -80,6 +81,22 @@ function Form(){
 
     const imageInputRef = useRef<HTMLInputElement>(null);
 
+
+    const { 
+        data: urlData, 
+        loading: urlLoading, 
+        error: urlError, 
+        handleExtract: handleExtractUrl,
+    } = useExtractUrl();
+
+    const [urlInput, setUrlInput] = useState("");
+
+    useEffect(() => {
+    if (urlData?.text) {
+        setText(urlData.text);
+    }
+    }, [urlData]);
+
     useEffect(() => {
     if (imageData?.text) {
         setText(imageData.text);
@@ -124,6 +141,13 @@ function Form(){
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
     }
+
+    function handleUrlSubmit() {
+        handleExtractUrl(urlInput);
+    }
+
+
+
 
 
     return(
@@ -233,6 +257,54 @@ function Form(){
                         />
                     </div>
                 </div>
+
+                <div className="my-3 flex items-center gap-2 md:my-4">
+                    <input
+                        type="url"
+                        value={urlInput}
+                        onChange={(e) => setUrlInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleUrlSubmit();
+                            }
+                        }}
+                        placeholder="Cole um link aqui..."
+                        disabled={urlLoading}
+                        className="
+                            flex-1
+                            min-w-0
+                            border border-text_border
+                            bg-original
+                            rounded-[3px]
+                            px-3 py-2
+                            font-sans text-[13px]
+                            text-ink
+                            outline-none
+                            focus:ring-1
+                            disabled:opacity-50
+                            md:text-[12px]
+                            lg:text-[13px]
+                        "
+                    />
+                    <button
+                        type="button"
+                        onClick={handleUrlSubmit}
+                        disabled={urlLoading || !urlInput.trim()}
+                        className="
+                            font-sans text-[10px] font-medium uppercase tracking-widest
+                            text-muted
+                            transition-colors duration-200
+                            hover:text-ink
+                            disabled:opacity-50 disabled:cursor-not-allowed
+                            md:text-[8px] lg:text-[10px]
+                            whitespace-nowrap
+                        "
+                    >
+                        {urlLoading ? "EXTRAINDO..." : "EXTRAIR LINK"}
+                    </button>
+                </div>
+
                 <div className="mb-8 pt-3 md:mb-0 md:pt-5">
                     <Paragraph label="OBSERVAÇÃO DO EDITOR"/>
                     <p className="reading-text mt-2 italic md:text-[12px] md:leading-7">
@@ -250,10 +322,18 @@ function Form(){
                             ⚠ Texto cortado em 50.000 caracteres. Considere simplificar partes menores.
                         </p>
                     )}
+
+                    {urlError && (
+                        <p className="mt-2 font-sans text-[11px] text-red-700 md:text-[10px] lg:text-[11px]">
+                            ⚠ {urlError}
+                        </p>
+                    )}
+                    
                 </div>
 
 
-                </div>
+
+            </div>
 
                 <div className="mt-10 md:mt-0">
                     <div className="mb-2 flex min-h-6 items-center justify-between gap-4 md:mb-5">
