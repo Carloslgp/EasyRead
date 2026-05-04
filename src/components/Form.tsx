@@ -7,6 +7,7 @@ import { useSimplify } from "../features/simplify/useSimplify";
 import { useExtractPdf } from "../features/simplify/useExtractPdf";
 import { useExtractImage } from "../features/simplify/extractImage";
 import { useExtractUrl } from "../features/simplify/useExtractUrl";
+import { useSpeechSynthesis } from "../hooks/useSpeechSynthesis";
 
 const grades = [
     "1.º ano",
@@ -57,6 +58,10 @@ function Form(){
     const [text, setText] = useState("");
     const [copied, setCopied] = useState(false);
     const { data, loading, error, handleSimplify } = useSimplify();
+
+
+    const { speak, stop, isSpeaking, supported: ttsSupported } = useSpeechSynthesis();
+
     const { 
         data: extractData, 
         loading: extractLoading, 
@@ -144,6 +149,14 @@ function Form(){
 
     function handleUrlSubmit() {
         handleExtractUrl(urlInput);
+    }
+
+    function handleOuvirClick() {
+        if (isSpeaking) {
+            stop();
+        } else if (data?.result) {
+            speak(data.result);
+        }
     }
 
 
@@ -375,7 +388,17 @@ function Form(){
                                     {copied ? "Copiado!" : "Copiar"}
                                 </button>
                                 <button type="button" className="hover:text-ink">Baixar PDF</button>
-                                <button type="button" className="hover:text-ink">Ouvir</button>
+                                    {ttsSupported && (
+                                        <button 
+                                            type="button"
+                                            onClick={handleOuvirClick}
+                                            disabled={!data?.result}
+                                            className="hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed"
+                                            aria-label={isSpeaking ? "Parar leitura em voz alta" : "Ouvir texto simplificado em voz alta"}
+                                        >
+                                            {isSpeaking ? "Parar" : "Ouvir"}
+                                        </button>
+                                    )}
                             </div>
                         </div>
 
