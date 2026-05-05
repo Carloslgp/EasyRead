@@ -79,7 +79,6 @@ function Form(){
 
     const { 
         loading: imageLoading, 
-        error: imageError, 
         handleExtract: handleExtractImage,
         data: imageData,
     } = useExtractImage();
@@ -112,6 +111,22 @@ function Form(){
     const paragraphCount = text.trim() ? text.split(/\n\s*\n/).length : 0;
     const wordCount = data?.result ? data.result.replace(/\*\*/g, "").trim().split(/\s+/).filter(Boolean).length : 0;
     const sentenceCount = data?.result ? countSentences(data.result) : 0;
+    const urlStatusMessage = urlLoading
+        ? "Extraindo texto do link, aguarde."
+        : urlError
+            ? `Não foi possível extrair o texto do link. ${urlError}`
+            : urlData?.truncated
+                ? "Texto extraído do link, mas cortado em 50.000 caracteres. Considere simplificar partes menores."
+                : urlData
+                    ? "Texto extraído do link com sucesso."
+                    : "";
+    const urlStatusClassName = urlError
+        ? "text-red-700"
+        : urlData?.truncated
+            ? "text-yellow-700"
+            : urlData
+                ? "text-green-700"
+                : "text-muted";
 
 
     function openFilePicker() {
@@ -322,6 +337,15 @@ function Form(){
                     </button>
                 </div>
 
+                <p
+                    role={urlError ? "alert" : "status"}
+                    aria-live={urlError ? "assertive" : "polite"}
+                    aria-atomic="true"
+                    className={`min-h-4 font-sans text-[11px] md:text-[10px] lg:text-[11px] ${urlStatusClassName}`}
+                >
+                    {urlStatusMessage}
+                </p>
+
                 <div className="mb-8 pt-3 md:mb-0 md:pt-5">
                     <Paragraph label="OBSERVAÇÃO DO EDITOR"/>
                     <p className="reading-text mt-2 italic md:text-[12px] md:leading-7">
@@ -340,20 +364,6 @@ function Form(){
                         </p>
                     )}
 
-                    <p
-                        aria-live="polite"
-                        aria-atomic="true"
-                        className="mt-2 font-sans text-[11px] md:text-[10px] lg:text-[11px]"
-                    >
-                        {urlError ? (
-                            <span className="text-red-700">⚠ {urlError}</span>
-                        ) : urlData?.truncated ? (
-                            <span className="text-yellow-700">⚠ Texto extraído, mas cortado em 50.000 caracteres. Considere simplificar partes menores.</span>
-                        ) : urlData ? (
-                            <span className="text-green-700">✓ Texto extraído com sucesso.</span>
-                        ) : null}
-                    </p>
-                    
                 </div>
 
 
