@@ -15,7 +15,7 @@ function Header() {
             <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-border gap-4">
 
                 <div className="flex items-baseline gap-3 sm:gap-4 min-w-0">
-                    <svg
+                    <svg aria-hidden="true"
                         className="w-6 h-5 text-ink shrink-0 self-center"
                         viewBox="0 0 24 24"
                         fill="none"
@@ -38,7 +38,7 @@ function Header() {
                     </span>
                 </div>
 
-                <nav className="hidden lg:block">
+                <nav className="hidden lg:block" aria-label="Navegação principal">
                     <ul className="flex items-center gap-8 font-sans text-sm text-muted">
                         {navItems.map((item) => (
                             <li key={item.href}>
@@ -88,6 +88,8 @@ function Header() {
 
             <nav
                 id="mobile-nav"
+                aria-label="Menu de navegação móvel"
+                aria-hidden={!open}
                 className={`lg:hidden overflow-hidden transition-[max-height] duration-300 ${
                     open ? "max-h-96" : "max-h-0"
                 }`}

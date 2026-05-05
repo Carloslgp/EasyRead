@@ -43,6 +43,7 @@ function ReadingScale({ gradeIndex, setGradeIndex }: ReadingScaleProps) {
                     value={gradeIndex}
                     onChange={(event) => setGradeIndex(Number(event.target.value))}
                     className="reading-scale-slider w-full"
+                    aria-label="Nível de leitura"
                     style={{
                         background: `linear-gradient(to right, #223e68 0%, #223e68 ${percentage}%, #f0e9d8 ${percentage}%, #f0e9d8 100%)`,
                     }}

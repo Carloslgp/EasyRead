@@ -165,7 +165,7 @@ function Form(){
 
     return(
 
-        <section className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8">
+        <section className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8" aria-label="Ferramenta de simplificação de texto">
             <input
                 ref={fileInputRef}
                 type="file"
@@ -190,7 +190,9 @@ function Form(){
                     <div className="mb-6 flex min-h-6 items-center justify-between gap-4 md:mb-5">
                         <Paragraph label="TEXTO ORIGINAL - I"/>
 
-                        <Paragraph label={data?.documentType?.toUpperCase() ?? "AGUARDANDO TEXTO"} />
+                        <div aria-live="polite" aria-atomic="true">
+                            <Paragraph label={data?.documentType?.toUpperCase() ?? "AGUARDANDO TEXTO"} />
+                        </div>
                     </div>
 
                     <textarea
@@ -239,7 +241,7 @@ function Form(){
                             <Paragraph label={data?.register?.toUpperCase() ?? "PORTUGUÊS FORMAL"} />
                         </div>
                         <div className="hidden md:block">
-                            <Button label="COLAR"/>
+                            <Button label="COLAR" aria-label="Colar texto da área de transferência (em breve)" disabled />
                         </div>
                         <div className="hidden md:block">
                             <Button 
@@ -257,7 +259,7 @@ function Form(){
                         </div>
                     </div>
                     <div className="my-2 mb-5 flex items-center justify-around md:hidden">
-                        <Button label="COLAR"/>
+                        <Button label="COLAR" aria-label="Colar texto da área de transferência (em breve)" disabled />
                         <Button 
                             label={imageLoading ? "EXTRAINDO..." : "TIRAR FOTO"}
                             onClick={openImagePicker}
@@ -282,6 +284,7 @@ function Form(){
                                 handleUrlSubmit();
                             }
                         }}
+                        aria-label="URL para extração de texto"
                         placeholder="Cole um link aqui..."
                         disabled={urlLoading}
                         className="
@@ -302,6 +305,7 @@ function Form(){
                     />
                     <button
                         type="button"
+                        aria-label={urlLoading ? "Extraindo texto do link, aguarde" : "Extrair texto do link"}
                         onClick={handleUrlSubmit}
                         disabled={urlLoading || !urlInput.trim()}
                         className="
@@ -325,22 +329,30 @@ function Form(){
                     </p>
 
                     {extractError && (
-                        <p className="mt-2 font-sans text-[11px] text-red-700 md:text-[10px] lg:text-[11px]">
+                        <p role="alert" className="mt-2 font-sans text-[11px] text-red-700 md:text-[10px] lg:text-[11px]">
                             ⚠ {extractError}
                         </p>
                     )}
 
                     {extractData?.truncated && (
-                        <p className="mt-2 font-sans text-[11px] text-yellow-700 md:text-[10px] lg:text-[11px]">
+                        <p role="status" className="mt-2 font-sans text-[11px] text-yellow-700 md:text-[10px] lg:text-[11px]">
                             ⚠ Texto cortado em 50.000 caracteres. Considere simplificar partes menores.
                         </p>
                     )}
 
-                    {urlError && (
-                        <p className="mt-2 font-sans text-[11px] text-red-700 md:text-[10px] lg:text-[11px]">
-                            ⚠ {urlError}
-                        </p>
-                    )}
+                    <p
+                        aria-live="polite"
+                        aria-atomic="true"
+                        className="mt-2 font-sans text-[11px] md:text-[10px] lg:text-[11px]"
+                    >
+                        {urlError ? (
+                            <span className="text-red-700">⚠ {urlError}</span>
+                        ) : urlData?.truncated ? (
+                            <span className="text-yellow-700">⚠ Texto extraído, mas cortado em 50.000 caracteres. Considere simplificar partes menores.</span>
+                        ) : urlData ? (
+                            <span className="text-green-700">✓ Texto extraído com sucesso.</span>
+                        ) : null}
+                    </p>
                     
                 </div>
 
@@ -351,7 +363,7 @@ function Form(){
                 <div className="mt-10 md:mt-0">
                     <div className="mb-2 flex min-h-6 items-center justify-between gap-4 md:mb-5">
                         <Paragraph label="VERSÃO SIMPLIFICADA - II"/>
-                        <p className="whitespace-nowrap bg-back_blue px-2 py-1 font-sans text-[10px] font-medium uppercase tracking-widest text-text_blue md:text-[8px] lg:text-[10px]">
+                        <p aria-live="polite" aria-atomic="true" className="whitespace-nowrap bg-back_blue px-2 py-1 font-sans text-[10px] font-medium uppercase tracking-widest text-text_blue md:text-[8px] lg:text-[10px]">
                             • NÍVEL DE LEITURA — {grades[gradeIndex]}
                         </p>
                     </div>
@@ -381,13 +393,20 @@ function Form(){
                             <div className="flex items-center gap-3 font-sans text-[11px] text-muted md:text-[9px] lg:text-[11px]">
                                 <button
                                     type="button"
+                                    aria-label={copied ? "Texto copiado para a área de transferência" : "Copiar texto simplificado"}
                                     onClick={handleCopy}
                                     disabled={!data?.result}
                                     className="hover:text-ink disabled:opacity-40 disabled:cursor-not-allowed"
                                 >
                                     {copied ? "Copiado!" : "Copiar"}
                                 </button>
-                                <button type="button" className="hover:text-ink">Baixar PDF</button>
+                                <button
+                                    type="button"
+                                    aria-label="Baixar versão simplificada em PDF (em breve)"
+                                    aria-disabled="true"
+                                    disabled
+                                    className="hover:text-ink"
+                                >Baixar PDF</button>
                                     {ttsSupported && (
                                         <button 
                                             type="button"
