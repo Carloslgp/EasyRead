@@ -1,17 +1,16 @@
 import { useState } from "react";
 
 const navItems = [
-    { label: "Como funciona", href: "#como-funciona" },
-    { label: "Para quem é", href: "#para-quem-e" },
-    { label: "Exemplos", href: "#exemplos" },
-    { label: "Sobre o projeto", href: "#sobre" },
+    { label: "Princípios", href: "#principios" },
+    { label: "GitHub", href: "https://github.com/Carloslgp/EasyRead", target: "_blank", rel: "noopener noreferrer" },
 ];
 
 function Header() {
     const [open, setOpen] = useState(false);
 
     return (
-        <header className="bg-paper px-4 lg:px-28 pt-6 sm:pt-8">
+        <header className="px-4 pt-6 sm:pt-8">
+            <div className="mx-auto md:max-w-[760px] lg:max-w-[1120px] xl:max-w-[1280px]">
             <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-border gap-4">
 
                 <div className="flex items-baseline gap-3 sm:gap-4 min-w-0">
@@ -44,6 +43,8 @@ function Header() {
                             <li key={item.href}>
                                 <a
                                     href={item.href}
+                                    target={item.target}
+                                    rel={item.rel}
                                     className="hover:text-ink transition-colors"
                                 >
                                     {item.label}
@@ -99,6 +100,8 @@ function Header() {
                         <li key={item.href}>
                             <a
                                 href={item.href}
+                                target={item.target}
+                                rel={item.rel}
                                 onClick={() => setOpen(false)}
                                 className="block py-3 hover:text-ink transition-colors"
                             >
@@ -108,6 +111,7 @@ function Header() {
                     ))}
                 </ul>
             </nav>
+            </div>
         </header>
     );
 }

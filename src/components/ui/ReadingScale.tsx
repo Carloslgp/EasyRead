@@ -22,7 +22,7 @@ function ReadingScale({ gradeIndex, setGradeIndex }: ReadingScaleProps) {
     const percentage = (gradeIndex / (grades.length - 1)) * 100;
 
     return (
-        <div className="rounded-lg bg-paper p-6 md:rounded-none md:border-t md:border-border md:p-0 md:pt-4">
+        <div className="rounded-lg p-6 md:rounded-none md:border-t md:border-border md:p-0 md:pt-4">
             <div className="mb-4 flex items-center justify-between md:mb-2">
                 <span className="font-sans text-[11px] tracking-[0.2em] text-muted md:text-[8px] lg:text-[10px]">
                     ESCALA DE LEITURA

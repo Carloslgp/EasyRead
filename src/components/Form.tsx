@@ -180,7 +180,7 @@ function Form(){
 
     return(
 
-        <section className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8" aria-label="Ferramenta de simplificação de texto">
+        <section id="simplificar" className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-8" aria-label="Ferramenta de simplificação de texto">
             <input
                 ref={fileInputRef}
                 type="file"
@@ -199,7 +199,7 @@ function Form(){
                 aria-hidden="true"
             />
 
-            <div className="mx-auto md:grid md:max-w-[760px] md:grid-cols-2 md:gap-x-8 lg:max-w-[1120px] lg:gap-x-10 xl:max-w-[1280px] xl:gap-x-12">
+            <div id="como-funciona" className="mx-auto md:grid md:max-w-[760px] md:grid-cols-2 md:gap-x-8 lg:max-w-[1120px] lg:gap-x-10 xl:max-w-[1280px] xl:gap-x-12">
 
                 <div className="w-full">
                     <div className="mb-6 flex min-h-6 items-center justify-between gap-4 md:mb-5">

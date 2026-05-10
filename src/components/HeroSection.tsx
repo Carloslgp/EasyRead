@@ -1,6 +1,6 @@
 function HeroSection(){
     return (
-        <div className="md:flex">
+        <div id="acessibilidade" className="md:flex">
 
             <div className="md:w-3/5">
                 <p className=" pt-7 font-sans text-[12px] md:text-xs font-medium text-muted tracking-widest">
