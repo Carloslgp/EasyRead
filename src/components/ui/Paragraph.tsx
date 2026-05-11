@@ -1,5 +1,3 @@
-
-
 type InfoBadgeProps = {
   valor?: number;
   label: string;

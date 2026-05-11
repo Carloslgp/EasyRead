@@ -174,6 +174,16 @@ function Form(){
         }
     }
 
+    async function handleColar() {
+        try {
+            const clipText = await navigator.clipboard.readText();
+            if (!clipText) return;
+            setText(clipText);
+        } catch (err) {
+            console.error("Erro ao colar:", err);
+        }
+    }   
+
 
 
 
@@ -256,7 +266,7 @@ function Form(){
                             <Paragraph label={data?.register?.toUpperCase() ?? "PORTUGUÊS FORMAL"} />
                         </div>
                         <div className="hidden md:block">
-                            <Button label="COLAR" aria-label="Colar texto da área de transferência (em breve)" disabled />
+                            <Button label="COLAR" onClick={handleColar} aria-label="Colar texto da área de transferência (em breve)"/>
                         </div>
                         <div className="hidden md:block">
                             <Button 
