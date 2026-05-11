@@ -8,6 +8,7 @@ import { useExtractPdf } from "../features/simplify/useExtractPdf";
 import { useExtractImage } from "../features/simplify/extractImage";
 import { useExtractUrl } from "../features/simplify/useExtractUrl";
 import { useSpeechSynthesis } from "../hooks/useSpeechSynthesis";
+import { exportPdf } from "../lib/exportPdf";
 
 const grades = [
     "1.º ano",
@@ -183,6 +184,16 @@ function Form(){
             console.error("Erro ao colar:", err);
         }
     }   
+
+    function handleBaixarPdf() {
+        if (!data?.result) return;
+        
+        exportPdf({
+            result: data.result,
+            register: data.register,
+            editorNote: data.editorNote,
+        });
+    }
 
 
 
@@ -422,10 +433,11 @@ function Form(){
                                 </button>
                                 <button
                                     type="button"
-                                    aria-label="Baixar versão simplificada em PDF (em breve)"
+                                    aria-label="Baixar versão simplificada em PDF"                                    
+                                    onClick={handleBaixarPdf}
+                                    disabled={!data?.result}
                                     aria-disabled="true"
-                                    disabled
-                                    className="hover:text-ink"
+                                    className="hover:text-ink disabled:opacity-40 disabled:cursor-not-allowed"
                                 >Baixar PDF</button>
                                     {ttsSupported && (
                                         <button 
