@@ -4,6 +4,7 @@ import { extractTextFromPdf } from "../services/pdf.js";
 import type { ExtractResponse } from "../types/index.js";
 import { extractTextFromImage } from "../services/image.js";
 import { extractTextFromUrl } from "../services/url.js";
+import { extractLimiter } from "../middlewares/rateLimit.js";
 
 const router = Router();
 
@@ -41,7 +42,7 @@ const uploadImage = multer({
     },
 });
 
-router.post("/extract/pdf", upload.single("file"), async (req: Request, res: Response) =>{
+router.post("/extract/pdf", extractLimiter, upload.single("file"), async (req: Request, res: Response) =>{
 
     if(!req.file){
         return res.status(400).json({error: "Nenhum arquivo encontrado"})
@@ -74,7 +75,7 @@ router.post("/extract/pdf", upload.single("file"), async (req: Request, res: Res
 })
 
 
-router.post("/extract/image", uploadImage.single("file"), async (req: Request, res: Response) => {
+router.post("/extract/image",extractLimiter, uploadImage.single("file"), async (req: Request, res: Response) => {
 
         if (!req.file) {
             return res.status(400).json({ error: "Nenhuma imagem enviada." });
@@ -108,7 +109,7 @@ router.post("/extract/image", uploadImage.single("file"), async (req: Request, r
 );
 
 
-router.post("/extract/url", async(req: Request, res: Response) => {
+router.post("/extract/url",extractLimiter, async(req: Request, res: Response) => {
 
     const { url } = req.body as { url?: string }
 

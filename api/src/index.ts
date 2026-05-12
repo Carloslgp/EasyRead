@@ -3,6 +3,7 @@ import Express, {Request, Response} from "express";
 import cors from "cors";
 import simplifyRouter from "./routes/simplify.js";
 import extractRouter from "./routes/extract.js";
+import { globalLimiter } from "./middlewares/rateLimit.js";
 
 
 const app = Express();
@@ -21,6 +22,8 @@ app.get("/health", (req: Request, res: Response) => {
     })
 
 })
+
+app.use(globalLimiter);
 
 app.use("/api", simplifyRouter);
 app.use("/api", extractRouter);

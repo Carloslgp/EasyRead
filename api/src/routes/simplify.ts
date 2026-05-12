@@ -1,10 +1,11 @@
 import {Router, Request, Response} from 'express'
 import { SimplifyRequest, SimplifyResponse } from '../types/index.js'
 import { simplifyDocument } from '../services/anthropic.js'
+import { simplifyLimiter } from "../middlewares/rateLimit.js";
 
 const router = Router()
 
-router.post("/simplify", async (req:Request, res: Response) => {
+router.post("/simplify", simplifyLimiter, async (req:Request, res: Response) => {
     const {text, grade} = req.body as SimplifyRequest
 
     if(!text || typeof text !== "string") {
