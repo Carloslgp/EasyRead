@@ -87,29 +87,46 @@ export async function extractTextFromUrl(url: string): Promise<UrlExtractionResu
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15_000);
 
-    let html: string
-    try{
-        const response = await fetch(url, {
-            signal: controller.signal,
-            headers:{
-                "User-Agent": "Mozilla/5.0 (compatible; EasyReadBot/1.0)",
-            }
-        })
+let html: string;
+try {
+    const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+            "User-Agent": "Mozilla/5.0 (compatible; EasyReadBot/1.0)",
+        },
+    });
 
-        if(!response.ok){
-            throw new Error(`A página retornou status ${response.status}.`)
-        }
+    if (!response.ok) {
+        throw new Error(`A página retornou status ${response.status}.`);
+    }
 
-        const contentType = response.headers.get("content-type") || ""
-        if (!contentType.includes("text/html")) {
-            throw new Error("A URL não aponta para uma página HTML.")
-        }
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("text/html")) {
+        throw new Error("A URL não aponta para uma página HTML.");
+    }
 
-        html = await response.text()
 
-        } finally {
-            clearTimeout(timeout)
-        }
+    let charset = "utf-8"; // default
+    const charsetMatch = contentType.match(/charset=([^;]+)/i);
+    if (charsetMatch) {
+        charset = charsetMatch[1].trim().toLowerCase();
+    }
+
+
+    const buffer = await response.arrayBuffer();
+    
+    try {
+        const decoder = new TextDecoder(charset);
+        html = decoder.decode(buffer);
+    } catch {
+
+        const decoder = new TextDecoder("utf-8");
+        html = decoder.decode(buffer);
+    }
+
+    } finally {
+        clearTimeout(timeout);
+    }
 
         const dom = new JSDOM(html, { url })
         const reader = new Readability(dom.window.document)
