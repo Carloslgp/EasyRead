@@ -2,6 +2,55 @@ import { JSDOM } from "jsdom"
 import { Readability } from "@mozilla/readability"
 import { url } from "node:inspector";
 import { response } from "express";
+import { promises as dns } from "node:dns";
+import { isIP } from "node:net";
+import { truncate } from "node:fs";
+
+
+
+const PRIVATE_IP_PATTERNS = [
+    /^127\./,                         
+    /^10\./,                          
+    /^192\.168\./,                    
+    /^172\.(1[6-9]|2\d|3[01])\./,     
+    /^169\.254\./,                    
+    /^::1$/,                          
+    /^fc/, /^fd/,                     
+    /^fe80:/,                         
+];
+
+function isPrivateIp(ip: string): boolean {
+    return PRIVATE_IP_PATTERNS.some(pattern => pattern.test(ip));
+}
+
+async function validateUrlIsPublic(hostname:string) {
+
+    const cleanHost = hostname.replace(/^\[|\]$/g, "");
+    
+    if(isIP(cleanHost)){
+        if(isPrivateIp(cleanHost)){
+            throw new Error("URL aponta para endereço interno")
+        }
+        return
+    }
+
+    try {
+        const addresses = await dns.lookup(cleanHost, { all: true });
+        
+        for (const { address } of addresses) {
+            if (isPrivateIp(address)) {
+                throw new Error("URL aponta para endereço interno.");
+            }
+        }
+    } catch (err) {
+        if (err instanceof Error && err.message.includes("interno")) {
+            throw err; 
+        }
+        throw new Error("Não foi possível resolver o endereço da URL.");
+    }
+
+
+}
 
 
 function cleanExtractedText(raw: string): string {
@@ -32,6 +81,8 @@ export async function extractTextFromUrl(url: string): Promise<UrlExtractionResu
     if(!["http:", "https:"].includes(parsedUrl.protocol)){
         throw new Error("Apenas URLs HTTP ou HTTPS são suportadas.")
     }
+
+    await validateUrlIsPublic(parsedUrl.hostname);
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15_000);
