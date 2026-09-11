@@ -1,64 +1,64 @@
-# Leitura Fácil
+# Leitura Fácil (Easy Read)
 
-Uma ferramenta pública que reescreve documentos complexos em linguagem simples, calibrada por nível de leitura. Pensada para quem se sente excluído da própria papelada.
+A public tool that rewrites complex documents in plain language, calibrated by reading level. Built for people who feel shut out of their own paperwork.
 
-[![Stack](https://img.shields.io/badge/stack-React%20%2B%20TypeScript%20%2B%20Express-2C2C2C?style=flat-square)](#stack-e-arquitetura)
-[![Acessibilidade](https://img.shields.io/badge/Lighthouse%20A11Y-100%2F100-success?style=flat-square)](#acessibilidade)
-[![Lei](https://img.shields.io/badge/em%20apoio%20à-Lei%2014.129%2F2021-blue?style=flat-square)](https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/L14129.htm)
-
----
-
-## O problema
-
-Mais da metade dos adultos brasileiros tem dificuldade para entender textos formais.[^analfabetismo] Contratos de aluguel, bulas de remédio, notificações da prefeitura, decisões judiciais e comunicados do INSS afetam decisões importantes da vida, mas são escritos numa linguagem que exclui boa parte de quem precisa entendê-los.
-
-A consequência é silenciosa: pessoas assinam papéis que não compreendem, tomam remédios sem saber os efeitos colaterais e perdem prazos porque não conseguem decifrar cartas oficiais. **O problema não é cognitivo, é de redação.**
-
-A **Lei nº 14.129/2021** tornou a linguagem simples um princípio do governo digital brasileiro. Mas a lei não escreve por ninguém, só abre o caminho. O Leitura Fácil ocupa esse caminho.
-
-[^analfabetismo]: Indicador de Alfabetismo Funcional (INAF), Instituto Paulo Montenegro, 2018.
+[![Stack](https://img.shields.io/badge/stack-React%20%2B%20TypeScript%20%2B%20Express-2C2C2C?style=flat-square)](#stack-and-architecture)
+[![Accessibility](https://img.shields.io/badge/Lighthouse%20A11Y-100%2F100-success?style=flat-square)](#accessibility)
+[![Law](https://img.shields.io/badge/in%20support%20of-Law%2014.129%2F2021-blue?style=flat-square)](https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/L14129.htm)
 
 ---
 
-## A solução
+## The problem
 
-Uma página simples, sem cadastro, sem armazenamento, sem ads. O usuário entrega o documento em um dos quatro formatos e recebe a versão simplificada no nível de leitura que escolheu.
+More than half of Brazilian adults struggle to understand formal texts.[^literacy] Rental contracts, medication leaflets, city hall notices, court rulings and social security letters shape important life decisions, yet they are written in a language that excludes a large share of the people who need to understand them.
 
-![Página inicial do Leitura Fácil](./docs/landing.png)
+The consequence is quiet: people sign papers they don't understand, take medication without knowing the side effects, and miss deadlines because they can't decipher official letters. **The problem isn't cognitive, it's editorial.**
 
-### Os quatro caminhos de entrada
+**Law No. 14,129/2021** made plain language a principle of Brazilian digital government. But a law doesn't write for anyone, it only clears the path. Leitura Fácil walks it.
 
-| Entrada | Caso de uso |
+[^literacy]: Functional Literacy Indicator (INAF), Instituto Paulo Montenegro, 2018.
+
+---
+
+## The solution
+
+A simple page: no sign-up, no storage, no ads. The user submits a document in one of four formats and gets back a simplified version at the reading level they chose.
+
+![Leitura Fácil landing page](./docs/landing.png)
+
+### The four input paths
+
+| Input | Use case |
 |---|---|
-| **Texto colado** | Cópia direta de e-mails, mensagens, PDFs já abertos |
-| **PDF anexado** | Contratos, manuais, documentos baixados |
-| **Foto / imagem** | Documento físico fotografado pelo celular |
-| **Link da web** | Notícias, decretos, artigos públicos online |
+| **Pasted text** | Direct copy from emails, messages, PDFs already open |
+| **Attached PDF** | Contracts, manuals, downloaded documents |
+| **Photo / image** | Physical document photographed with a phone |
+| **Web link** | News, decrees, public articles online |
 
-Todos convergem para o mesmo pipeline interno: o texto é extraído, exibido para o usuário revisar e então simplificado pela IA.
+All of them converge into the same internal pipeline: the text is extracted, shown to the user for review, and then simplified by the AI.
 
-### Os onze níveis de leitura
+### The eleven reading levels
 
-Em vez de "simplifique mais" ou "simplifique menos", o usuário escolhe um nível concreto, do 1º ano ao Superior. A IA reescreve respeitando o vocabulário, o comprimento de frase e a complexidade sintática esperados para cada nível.
+Instead of "simplify more" or "simplify less", the user picks a concrete level, from 1st grade to university. The AI rewrites the text respecting the vocabulary, sentence length and syntactic complexity expected at each level.
 
-### Princípios editoriais
+### Editorial principles
 
-Quatro regras que a IA segue, e que ficam visíveis para o usuário:
+Four rules the AI follows, kept visible to the user:
 
-- **Frases curtas**: no máximo 20 palavras
-- **Voz ativa**: quem faz a ação aparece primeiro
-- **Vocabulário comum**: palavras do dia a dia no lugar de termos técnicos
-- **Leitura respirável**: espaço em branco como ferramenta
-
----
-
-## Demonstração
-
-![Página inicial do Leitura Fácil](./docs/uso.gif)
+- **Short sentences**: 20 words maximum
+- **Active voice**: whoever performs the action comes first
+- **Everyday vocabulary**: common words instead of technical terms
+- **Breathable reading**: white space as a tool
 
 ---
 
-## Stack e arquitetura
+## Demo
+
+![Leitura Fácil in use](./docs/uso.gif)
+
+---
+
+## Stack and architecture
 
 ```
 ┌─────────────────────────────────────────┐
@@ -76,59 +76,59 @@ Quatro regras que a IA segue, e que ficam visíveis para o usuário:
                │
         ┌──────┴──────┐
         ↓             ↓
-   Anthropic        Web (URLs
-   (Haiku 4.5)      externas)
+   Anthropic        Web (external
+   (Haiku 4.5)        URLs)
 ```
 
-### Por que essa stack
+### Why this stack
 
-**React + TypeScript + Vite** no frontend porque o produto é uma SPA: uma única tela com fluxo único de interação. Vite oferece HMR rápido e build otimizado sem configuração. TypeScript ajuda a manter o projeto seguro e fácil de evoluir.
+**React + TypeScript + Vite** on the frontend because the product is an SPA: a single screen with a single interaction flow. Vite gives fast HMR and an optimized build with no configuration. TypeScript keeps the project safe and easy to evolve.
 
-**Tailwind** porque o sistema de design "Editorial Calm" é coerente, mas customizado. Tailwind permite que cada componente carregue seu próprio estilo, sem a fragmentação de CSS-in-JS nem o peso de uma biblioteca de componentes prontos.
+**Tailwind** because the "Editorial Calm" design system is coherent but custom. Tailwind lets each component carry its own styling, without the fragmentation of CSS-in-JS or the weight of an off-the-shelf component library.
 
-**Express** no backend porque a aplicação tem poucos endpoints e nenhum estado persistente. Frameworks maiores como NestJS ou Fastify seriam overhead injustificado.
+**Express** on the backend because the application has few endpoints and no persistent state. Larger frameworks like NestJS or Fastify would be unjustified overhead.
 
-**Anthropic Claude Haiku 4.5** como engine de simplificação. Foi escolhido por três motivos: qualidade da reescrita em português, suporte robusto a `tool use` (saída estruturada garantida via schema) e custo viável para uso público gratuito.
+**Anthropic Claude Haiku 4.5** as the simplification engine. Chosen for three reasons: the quality of its rewriting in Portuguese, solid `tool use` support (structured output guaranteed by schema) and a cost that makes free public use viable.
 
-**Tool use no lugar de prompt engineering puro** porque garante saída JSON validada pelo esquema, sem regex frágil de parsing e sem alucinação de campos.
+**Tool use instead of pure prompt engineering** because it guarantees schema-validated JSON output, with no fragile parsing regex and no hallucinated fields.
 
-### Estrutura de pastas
+### Folder structure
 
 ```
 /
 ├── api/                          # Backend
 │   ├── src/
-│   │   ├── routes/               # Endpoints HTTP
+│   │   ├── routes/               # HTTP endpoints
 │   │   │   ├── simplify.ts       # POST /api/simplify
 │   │   │   └── extract.ts        # POST /api/extract/{pdf,image,url}
-│   │   ├── services/             # Lógica de negócio
-│   │   │   ├── anthropic.ts      # Chamadas ao Claude
-│   │   │   ├── pdf.ts            # Extração de texto de PDF
-│   │   │   ├── image.ts          # Extração via Vision API
+│   │   ├── services/             # Business logic
+│   │   │   ├── anthropic.ts      # Claude calls
+│   │   │   ├── pdf.ts            # PDF text extraction
+│   │   │   ├── image.ts          # Extraction via Vision API
 │   │   │   └── url.ts            # Fetch + Readability
 │   │   ├── middlewares/
-│   │   │   └── rateLimit.ts      # Limites por rota
+│   │   │   └── rateLimit.ts      # Per-route limits
 │   │   ├── lib/
 │   │   │   └── prompt.ts         # System prompts
 │   │   ├── types/
-│   │   ├── config.ts             # dotenv isolado
-│   │   └── index.ts              # Bootstrap Express
-│   ├── .npmrc                    # Defesas de supply chain
+│   │   ├── config.ts             # Isolated dotenv
+│   │   └── index.ts              # Express bootstrap
+│   ├── .npmrc                    # Supply chain defenses
 │   └── package.json
 │
 └── src/                          # Frontend
     ├── components/
-    │   ├── ui/                   # Componentes atômicos
+    │   ├── ui/                   # Atomic components
     │   │   ├── Button.tsx
     │   │   ├── Paragraph.tsx
-    │   │   ├── ReadingScale.tsx  # Slider de 11 níveis
+    │   │   ├── ReadingScale.tsx  # 11-level slider
     │   │   └── ResponseBox.tsx
     │   ├── HeroSection.tsx
     │   ├── Form.tsx
     │   ├── Principles.tsx
     │   ├── Footer.tsx
     │   └── header.tsx
-    ├── features/simplify/        # Hooks de lógica
+    ├── features/simplify/        # Logic hooks
     │   ├── useSimplify.ts
     │   ├── useExtractPdf.ts
     │   ├── extractImage.ts
@@ -136,148 +136,148 @@ Quatro regras que a IA segue, e que ficam visíveis para o usuário:
     ├── hooks/
     │   └── useSpeechSynthesis.ts # Web Speech API
     ├── lib/
-    │   └── exportPdf.ts          # Geração client-side de PDF
+    │   └── exportPdf.ts          # Client-side PDF generation
     └── services/
-        └── api.ts                # Cliente HTTP
+        └── api.ts                # HTTP client
 ```
 
 ---
 
-## Funcionalidades
+## Features
 
-### Entrada
-- ✅ Colar texto direto
-- ✅ Anexar PDF (até 10 MB)
-- ✅ Anexar ou fotografar imagem (JPG, PNG, WEBP até 20 MB)
-- ✅ Colar URL pública (HTTP/HTTPS)
-- ✅ Câmera traseira em mobile via `capture="environment"`
+### Input
+- ✅ Paste text directly
+- ✅ Attach a PDF (up to 10 MB)
+- ✅ Attach or take a photo (JPG, PNG, WEBP up to 20 MB)
+- ✅ Paste a public URL (HTTP/HTTPS)
+- ✅ Rear camera on mobile via `capture="environment"`
 
-### Processamento
-- ✅ Onze níveis de leitura (1º ano até Superior)
-- ✅ Detecção automática do tipo de documento
-- ✅ Observação editorial calibrada ao nível
-- ✅ Truncamento inteligente em 50.000 caracteres
+### Processing
+- ✅ Eleven reading levels (1st grade through university)
+- ✅ Automatic document type detection
+- ✅ Editorial note calibrated to the chosen level
+- ✅ Smart truncation at 50,000 characters
 
-### Saída
-- ✅ Texto simplificado com formatação Markdown
-- ✅ Leitura em voz alta (Web Speech API, voz nativa do SO)
-- ✅ Cópia para área de transferência
-- ✅ Download em PDF (geração client-side, fonte Helvetica para legibilidade)
+### Output
+- ✅ Simplified text with Markdown formatting
+- ✅ Read aloud (Web Speech API, native OS voice)
+- ✅ Copy to clipboard
+- ✅ PDF download (generated client-side, Helvetica for legibility)
 
-### Acessibilidade
+### Accessibility
 - ✅ Lighthouse Accessibility 100/100
-- ✅ ARIA completo (live regions, landmarks, labels)
-- ✅ Navegação 100% por teclado
-- ✅ Foco automático no botão "Ouvir" após a simplificação
-- ✅ Anúncio automático do resultado para leitores de tela
+- ✅ Full ARIA (live regions, landmarks, labels)
+- ✅ 100% keyboard navigation
+- ✅ Automatic focus on the "Listen" button once simplification finishes
+- ✅ Automatic announcement of the result to screen readers
 
 ---
 
-## Decisões de design
+## Design decisions
 
-### Por que o PDF é gerado no frontend
+### Why the PDF is generated on the frontend
 
-A geração do PDF usa **jsPDF no navegador** em vez de Puppeteer no servidor. Os trade-offs:
+PDF generation uses **jsPDF in the browser** instead of Puppeteer on the server. The trade-offs:
 
-- **Privacidade**: o texto simplificado nunca volta ao servidor para ser convertido em PDF. Isso reforça a promessa de que não armazenamos textos.
-- **Custo**: zero carga no backend. Cada PDF é gerado pela máquina do próprio usuário.
-- **Performance**: download imediato, sem espera de rede.
-- **Limitação aceita**: os PDFs ficam mais simples, sem negrito inline nem renderização rica. Para o caso de uso, isso é suficiente.
+- **Privacy**: the simplified text never goes back to the server to be converted into a PDF. This reinforces the promise that we don't store texts.
+- **Cost**: zero backend load. Each PDF is generated on the user's own machine.
+- **Performance**: immediate download, no network wait.
+- **Accepted limitation**: the PDFs are simpler, with no inline bold or rich rendering. For this use case, that's enough.
 
-### Por que Helvetica no PDF e Source Serif no site
+### Why Helvetica in the PDF and Source Serif on the site
 
-O site usa **Source Serif 4** por coerência editorial. O PDF usa **Helvetica** por uma razão empírica: leitores com dislexia leem de 12% a 15% mais rápido em fontes sans-serif.[^dislexia] O público-alvo do Leitura Fácil tem alta sobreposição com dislexia, baixa visão e idade avançada. Para esses perfis, sans-serif vence.
+The site uses **Source Serif 4** for editorial coherence. The PDF uses **Helvetica** for an empirical reason: readers with dyslexia read 12% to 15% faster in sans-serif fonts.[^dyslexia] Leitura Fácil's audience overlaps heavily with dyslexia, low vision and old age. For those profiles, sans-serif wins.
 
-[^dislexia]: Rello, Luz & Baeza-Yates, Ricardo. "Good fonts for dyslexia." ASSETS '13.
+[^dyslexia]: Rello, Luz & Baeza-Yates, Ricardo. "Good fonts for dyslexia." ASSETS '13.
 
-### Por que mostrar o texto extraído antes de simplificar
+### Why the extracted text is shown before simplification
 
-Quando o usuário anexa PDF, imagem ou URL, o texto extraído aparece no campo de texto **antes** da simplificação. Isso atende a três objetivos:
+When the user attaches a PDF, an image or a URL, the extracted text appears in the text field **before** simplification. This serves three goals:
 
-1. **Transparência**: o usuário vê o que a IA vai processar.
-2. **Controle**: pode editar o texto antes, removendo trechos irrelevantes.
-3. **Economia**: a simplificação só roda quando o usuário aprova, evitando chamadas desnecessárias à IA.
+1. **Transparency**: the user sees what the AI is about to process.
+2. **Control**: they can edit the text first, removing irrelevant passages.
+3. **Economy**: simplification only runs once the user approves, avoiding unnecessary AI calls.
 
-### Por que tool use no lugar de prompt + parse
+### Why tool use instead of prompt + parse
 
-Cada chamada à IA usa `tool use` com schema JSON definido. Isso elimina parsing frágil de saída e garante que os campos esperados sempre existam:
+Every AI call uses `tool use` with a defined JSON schema. This removes fragile output parsing and guarantees that the expected fields always exist:
 
 ```typescript
 {
-    result: string,       // texto simplificado
-    documentType: string, // ex: "Contrato de aluguel"
-    register: string,     // ex: "4º ano · Fácil"
-    editorNote: string    // observação editorial no nível do leitor
+    result: string,       // simplified text
+    documentType: string, // e.g. "Rental contract"
+    register: string,     // e.g. "4th grade · Easy"
+    editorNote: string    // editorial note at the reader's level
 }
 ```
 
-Se a IA não conseguir produzir o schema, retorna erro estruturado em vez de texto malformado.
+If the AI can't produce the schema, it returns a structured error instead of malformed text.
 
 ---
 
-## Acessibilidade
+## Accessibility
 
-A acessibilidade do Leitura Fácil **não é apenas uma feature**. Ela é a tese do produto. Cada decisão foi tomada com isso em mente.
+Accessibility in Leitura Fácil **is not just a feature**. It's the product's thesis. Every decision was made with that in mind.
 
-### Auditoria
+### Audit
 
 - **Lighthouse Accessibility**: 100/100
-- **WCAG 2.1**: Nível AA
-- Testado com **Orca** (Linux, GNOME) e **DevTools Accessibility Tree**
+- **WCAG 2.1**: Level AA
+- Tested with **Orca** (Linux, GNOME) and the **DevTools Accessibility Tree**
 
-### Implementação
+### Implementation
 
-- **Live regions** (`aria-live="polite"`) no resultado simplificado, para que leitores de tela anunciem a saída automaticamente
-- **`aria-busy`** durante loading, evitando anúncios parciais
-- **`role="alert"`** em mensagens de erro
-- **Landmarks semânticos** (`<nav>`, `<section>`, `<footer>`) com `aria-label` distintos
-- **Foco automático** no botão "Ouvir" quando a simplificação termina, encurtando o fluxo para usuários de teclado e leitor de tela
-- **Web Speech API** para conversão texto→voz nativa do SO, sem dependência de API externa paga
+- **Live regions** (`aria-live="polite"`) on the simplified result, so screen readers announce the output automatically
+- **`aria-busy`** during loading, preventing partial announcements
+- **`role="alert"`** on error messages
+- **Semantic landmarks** (`<nav>`, `<section>`, `<footer>`) with distinct `aria-label`s
+- **Automatic focus** on the "Listen" button when simplification finishes, shortening the flow for keyboard and screen reader users
+- **Web Speech API** for native OS text-to-speech, with no dependency on a paid external API
 
 ---
 
-## Segurança
+## Security
 
-A aplicação trata documentos que podem ser sensíveis, como contratos, dados pessoais e comunicações privadas. A segurança foi pensada em camadas.
+The application handles documents that may be sensitive, such as contracts, personal data and private communications. Security was designed in layers.
 
 ### Rate limiting
 
-Cada rota tem limite específico, proporcional ao custo computacional:
+Each route has its own limit, proportional to its computational cost:
 
-| Rota | Limite | Justificativa |
+| Route | Limit | Rationale |
 |---|---|---|
-| Global | 100 req / 15min | Defesa geral |
-| `/api/simplify` | 20 req / 15min | Chamada cara à IA |
-| `/api/extract/*` | 30 req / 15min | Custo médio (Vision, fetch) |
+| Global | 100 req / 15min | General defense |
+| `/api/simplify` | 20 req / 15min | Expensive AI call |
+| `/api/extract/*` | 30 req / 15min | Medium cost (Vision, fetch) |
 
-### Proteção contra SSRF
+### SSRF protection
 
-A rota `/api/extract/url` valida cada hostname antes do fetch. IPs privados (RFC 1918), loopback, link-local (`169.254.169.254`, metadata service em cloud) e IPv6 internos são bloqueados após resolução DNS. A defesa cobre também DNS rebinding: verifica todos os IPs resolvidos, não apenas o primeiro.
+The `/api/extract/url` route validates every hostname before fetching. Private IPs (RFC 1918), loopback, link-local (`169.254.169.254`, the cloud metadata service) and internal IPv6 are blocked after DNS resolution. The defense also covers DNS rebinding: it checks every resolved IP, not just the first one.
 
-### Defesa de supply chain
+### Supply chain defense
 
-O `.npmrc` do backend configura:
+The backend's `.npmrc` sets:
 
-- `ignore-scripts=true`: scripts de install não rodam, reduzindo um dos principais vetores de ataque em pacotes npm
-- `min-release-age=7d`: pacotes recém-publicados não são instalados, dando tempo para a comunidade detectar possíveis comprometimentos
+- `ignore-scripts=true`: install scripts don't run, reducing one of the main attack vectors in npm packages
+- `min-release-age=7d`: freshly published packages aren't installed, giving the community time to catch possible compromises
 
-### Privacidade por design
+### Privacy by design
 
-- **Sem cadastro**: nenhuma identificação de usuário
-- **Sem armazenamento**: textos enviados são processados em memória e descartados após a resposta
-- **Sem analytics invasivo**: nenhum tracker de terceiros
-- **HTTPS obrigatório em produção**: clipboard API e câmera só funcionam em contexto seguro
+- **No sign-up**: no user identification whatsoever
+- **No storage**: submitted texts are processed in memory and discarded after the response
+- **No invasive analytics**: no third-party trackers
+- **HTTPS required in production**: the clipboard API and the camera only work in a secure context
 
 ---
 
-## Rodando localmente
+## Running locally
 
-### Pré-requisitos
+### Prerequisites
 
 - Node.js 20+
-- Chave de API da Anthropic ([console.anthropic.com](https://console.anthropic.com))
+- An Anthropic API key ([console.anthropic.com](https://console.anthropic.com))
 
-### Passos
+### Steps
 
 ```bash
 # Clone
@@ -286,18 +286,18 @@ cd EasyRead
 
 # Backend
 cd api
-# crie um arquivo .env com ANTHROPIC_API_KEY e PORT (veja abaixo)
+# create a .env file with ANTHROPIC_API_KEY and PORT (see below)
 npm install
 npm run dev    # http://localhost:3001
 
-# Frontend (em outro terminal)
+# Frontend (in another terminal)
 cd ..
-# crie um arquivo .env com VITE_API_URL (veja abaixo)
+# create a .env file with VITE_API_URL (see below)
 npm install
 npm run dev    # http://localhost:5173
 ```
 
-### Variáveis de ambiente
+### Environment variables
 
 **Backend (`api/.env`):**
 
@@ -316,27 +316,25 @@ VITE_API_URL=http://localhost:3001
 
 ## Roadmap
 
-### v1 (atual)
-- ✅ Pipeline multimodal completo
-- ✅ 11 níveis de leitura
-- ✅ TTS + ARIA + acessibilidade plena
-- ✅ Geração client-side de PDF
-- ✅ Defesas de segurança em camadas
+### v1 (current)
+- ✅ Full multimodal pipeline
+- ✅ 11 reading levels
+- ✅ TTS + ARIA + full accessibility
+- ✅ Client-side PDF generation
+- ✅ Layered security defenses
 
-### v2 (planejado)
-- 🔲 **Glossário inteligente**: identificação automática de termos difíceis no texto original, com tooltip contextual e silabação
-- 🔲 **Exportação editorial**: PDF em formato A4 com tipografia refinada, EPUB para leitores de e-book
-- 🔲 **Histórico local**: opção opt-in para salvar simplificações no localStorage do navegador
+### v2 (planned)
+- 🔲 **Smart glossary**: automatic detection of difficult terms in the original text, with contextual tooltips and syllable breaks
+- 🔲 **Editorial export**: A4 PDF with refined typography, EPUB for e-readers
+- 🔲 **Local history**: opt-in option to save simplifications in the browser's localStorage
 
-### v3 (visão)
-- 🔲 **Extensão de navegador**: simplificar páginas web in-place
-- 🔲 **Modo offline**: simplificação básica sem chamar API
-- 🔲 **API pública**: para integração com outros projetos cívicos
+### v3 (vision)
+- 🔲 **Browser extension**: simplify web pages in place
+- 🔲 **Offline mode**: basic simplification without calling the API
+- 🔲 **Public API**: for integration with other civic projects
 
 ---
 
+> _"Clarity is a form of courtesy."_
 
-> _"A clareza é uma forma de cortesia."_
-
-
-Projeto de [Carlos](https://github.com/Carloslgp) · Curitiba, 2026
+A project by [Carlos](https://github.com/Carloslgp) · Curitiba, 2026
